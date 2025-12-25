@@ -1,0 +1,85 @@
+// Company Types
+export interface CompanyCreateRequest {
+    name: string;
+    companyID: number;
+    registrationNumber: string;
+    reportingCurrencyId: number;
+    reportingCurrencyCode: string;
+    financialYearEnd: string;
+    leaseTypes: string;
+    assetType: string;
+    licenseKey?: string;
+    licenseExpiry: string;
+    allowedUsers: number;
+    allowedLease: number;
+}
+
+export interface CompanyCreateResponse {
+    companyID: number;
+    id: number;
+    name: string;
+    registrationNumber: string;
+    reportingCurrencyId: number;
+    reportingCurrencyCode: string;
+    financialYearEnd: string;
+    leaseTypes: string;
+    assetType: string;
+    licenseKey?: string;
+    licenseExpiry: string;
+    allowedUsers: number;
+    allowedLease: number;
+}
+
+// User Existence Check
+export interface UserExistRequest {
+    email: string;
+}
+
+// User Types
+export interface UserCreateRequest {
+    userID: number;
+    username: string;
+    passwordHash: string;
+    phoneNumber: string;
+    userAddress: string;
+    email: string;
+    companyID: string;
+    role: string;
+}
+
+export interface UserCreateResponse {
+    id: string;
+    userID: string;
+    username: string;
+    phoneNumber: string;
+    userAddress: string;
+    email: string;
+    companyID: string;
+    role: string;
+    createdAt: string;
+}
+
+// Lease Types
+export interface LeaseCreateRequest {
+    [key: string]: any;
+}
+
+export interface LeaseCreateResponse {
+    id: string;
+    createdAt: string;
+}
+
+// API Response Wrapper
+export interface ApiResponse<T> {
+    success: boolean;
+    data?: T;
+    error?: string;
+    message?: string;
+}
+
+// API Error
+export interface ApiError {
+    status: number;
+    message: string;
+    details?: any;
+}
