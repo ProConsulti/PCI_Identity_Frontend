@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ArrowRight, Info, ShieldCheck, Zap
+    ArrowRight, Info, ShieldCheck, Zap, AlertCircle
 } from 'lucide-react';
 import { registrationService } from '../../../services/registrationService';
 import { currencyService, type Currency } from '../../../services/currencyService';
 import { useAppDispatch } from '../../../store/hooks';
 import { setCompanyData } from '../../../store/registrationSlice';
 import InputGroup from '../../../components/InputGroup';
+import { validateEmail } from '../../../utils/emailValidator';
 import type { CompanyCreateRequest, CompanyCreateResponse } from '../../../types/api.types';
 import { COMPANY_DEFAULTS } from '../../../constants/companyDefaults';
 
@@ -16,6 +17,7 @@ export const CompanyCreationPage = () => {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [emailError, setEmailError] = useState<string | null>(null);
     const [currencies, setCurrencies] = useState<Currency[]>([]);
     const [currenciesLoading, setCurrenciesLoading] = useState(true);
 
@@ -60,6 +62,12 @@ export const CompanyCreationPage = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
+
+        // Validate email on change
+        if (name === 'email') {
+            const validation = validateEmail(value);
+            setEmailError(validation.error);
+        }
     };
 
     const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -79,6 +87,14 @@ export const CompanyCreationPage = () => {
         e.preventDefault();
         setLoading(true);
         setError(null);
+
+        // Validate email before submission
+        const emailValidation = validateEmail(formData.email);
+        if (!emailValidation.isValid) {
+            setError(emailValidation.error);
+            setLoading(false);
+            return;
+        }
 
         try {
             // First, check if email already exists
@@ -112,9 +128,9 @@ export const CompanyCreationPage = () => {
             };
 
             const companyData: CompanyCreateResponse = await registrationService.createCompany(finalPayload);
-            if (companyData.id) {
+            if (companyData.companyId) {
                 dispatch(setCompanyData({
-                    companyID: companyData.id,
+                    companyID: companyData.companyId,
                     userEmail: formData.email,
                     currencyID: formData.reportingCurrencyId,
                 }));
@@ -157,18 +173,26 @@ export const CompanyCreationPage = () => {
                                 placeholder="e.g. Acme Global Ltd"
                             />
 
-                            <InputGroup
-                                label="Corporate Email Address"
-                                name="email"
-                                type="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                required
-                                placeholder="admin@company.com"
-                            />
+                            <div>
+                                <InputGroup
+                                    label="Corporate Email Address"
+                                    name="email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    required
+                                    placeholder="admin@company.com"
+                                />
+                                {emailError && (
+                                    <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl flex items-start gap-2">
+                                        <AlertCircle size={16} className="text-red-600 mt-0.5 shrink-0" />
+                                        <p className="text-xs font-bold text-red-700">{emailError}</p>
+                                    </div>
+                                )}
+                            </div>
 
                             <div>
-                                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                                <label className="text-[11px] font-black text-slate-500 uppercase tracking-wider ml-1">
                                     Reporting Currency
                                 </label>
                                 <select
@@ -203,7 +227,7 @@ export const CompanyCreationPage = () => {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        disabled={loading || !formData.name || !formData.email || currenciesLoading}
+                        disabled={loading || !formData.name || !formData.email || !!emailError || currenciesLoading}
                         className="cursor-pointer w-full bg-[#003399] hover:bg-[#002266] disabled:opacity-50 disabled:grayscale text-white py-5 rounded-[2rem] font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/20 transition-all active:scale-[0.98] group"
                     >
                         {loading ? "Initializing..." : "Proceed to User Setup"}

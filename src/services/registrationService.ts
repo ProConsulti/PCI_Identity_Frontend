@@ -10,6 +10,7 @@ import type {
   ApiError,
 } from '../types/api.types';
 import { apiClient } from './apiClient';
+import { tokenService } from './tokenService';
 import API_CONFIG from '../config/api.config';
 
 class RegistrationService {
@@ -18,6 +19,9 @@ class RegistrationService {
    */
   async createCompany(data: CompanyCreateRequest): Promise<CompanyCreateResponse> {
     try {
+      // Ensure token is available before making API call
+      await tokenService.ensureToken();
+
       const response = await apiClient.post<CompanyCreateResponse>(
         API_CONFIG.ENDPOINTS.REGISTER_COMPANY,
         data
@@ -35,18 +39,20 @@ class RegistrationService {
    */
   async createUser(data: UserCreateRequest): Promise<UserCreateResponse> {
     try {
-      const response = await apiClient.post<ApiResponse<UserCreateResponse>>(
+      // Ensure token is available before making API call
+      await tokenService.ensureToken();
+
+      const response = await apiClient.post<UserCreateResponse>(
         API_CONFIG.ENDPOINTS.REGISTER_USER,
         data
       );
-
-      if (response.success && response.data) {
-        return response.data;
+      if (response.userID) {
+        return response;
       }
 
       throw {
         status: 400,
-        message: response.error || 'Failed to create user',
+        message: 'Failed to create user',
       } as ApiError;
     } catch (error) {
       this.handleError(error);
@@ -59,6 +65,9 @@ class RegistrationService {
    */
   async createLease(data: LeaseCreateRequest): Promise<LeaseCreateResponse> {
     try {
+      // Ensure token is available before making API call
+      await tokenService.ensureToken();
+
       const response = await apiClient.post<ApiResponse<LeaseCreateResponse>>(
         API_CONFIG.ENDPOINTS.REGISTER_LEASE,
         data
@@ -83,6 +92,9 @@ class RegistrationService {
    */
   async checkUserExists(email: string): Promise<boolean> {
     try {
+      // Ensure token is available before making API call
+      await tokenService.ensureToken();
+
       const data: UserExistRequest = { email };
       const response = await apiClient.post<boolean>(
         API_CONFIG.ENDPOINTS.USER_EXIST,

@@ -24,7 +24,7 @@ const InputGroup: React.FC<InputGroupProps> = ({
     onChange
 }) => (
     <div className={`flex flex-col gap-2 ${className}`}>
-        <label className="text-[11px] font-black text-slate-400 uppercase tracking-wider ml-1">
+        <label className="text-[11px] font-black text-slate-500 uppercase tracking-wider ml-1">
             {label} {required && '*'}
         </label>
         <input

@@ -1,5 +1,6 @@
 import API_CONFIG from '../config/api.config';
 import type { ApiError } from '../types/api.types';
+import { tokenService } from './tokenService';
 
 class ApiClient {
   private baseUrl: string;
@@ -11,25 +12,47 @@ class ApiClient {
   }
 
   /**
+   * Get authorization headers with token
+   */
+  private getAuthHeaders(): Record<string, string> {
+    const token = tokenService.getToken();
+    if (token) {
+      return {
+        'Authorization': `Bearer ${token}`,
+      };
+    }
+    return {};
+  }
+
+  /**
    * Generic fetch wrapper with error handling
    */
   private async request<T>(
     endpoint: string,
-    options: RequestInit & { method: string }
+    options: RequestInit & { method: string },
+    skipAuth: boolean = false,
+    customBaseUrl?: string
   ): Promise<T> {
-    const url = `${this.baseUrl}${endpoint}`;
-    
+    const url = `${customBaseUrl || this.baseUrl}${endpoint}`;
+
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), this.timeout);
 
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+        ...(options.headers as Record<string, string>),
+      };
+
+      // Add authorization header if not skipped
+      if (!skipAuth) {
+        Object.assign(headers, this.getAuthHeaders());
+      }
+
       const response = await fetch(url, {
         ...options,
         signal: controller.signal,
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers,
-        },
+        headers,
       });
 
       clearTimeout(timeoutId);
@@ -59,35 +82,35 @@ class ApiClient {
   /**
    * GET request
    */
-  async get<T>(endpoint: string): Promise<T> {
-    return this.request<T>(endpoint, { method: 'GET' });
+  async get<T>(endpoint: string, skipAuth: boolean = false, customBaseUrl?: string): Promise<T> {
+    return this.request<T>(endpoint, { method: 'GET' }, skipAuth, customBaseUrl);
   }
 
   /**
    * POST request
    */
-  async post<T>(endpoint: string, data?: any): Promise<T> {
+  async post<T>(endpoint: string, data?: any, skipAuth: boolean = false, customBaseUrl?: string): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'POST',
       body: data ? JSON.stringify(data) : undefined,
-    });
+    }, skipAuth, customBaseUrl);
   }
 
   /**
    * PUT request
    */
-  async put<T>(endpoint: string, data?: any): Promise<T> {
+  async put<T>(endpoint: string, data?: any, skipAuth: boolean = false, customBaseUrl?: string): Promise<T> {
     return this.request<T>(endpoint, {
       method: 'PUT',
       body: data ? JSON.stringify(data) : undefined,
-    });
+    }, skipAuth, customBaseUrl);
   }
 
   /**
    * DELETE request
    */
-  async delete<T>(endpoint: string): Promise<T> {
-    return this.request<T>(endpoint, { method: 'DELETE' });
+  async delete<T>(endpoint: string, skipAuth: boolean = false, customBaseUrl?: string): Promise<T> {
+    return this.request<T>(endpoint, { method: 'DELETE' }, skipAuth, customBaseUrl);
   }
 }
 

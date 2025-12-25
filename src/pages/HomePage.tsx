@@ -65,15 +65,6 @@ export const HomePage = () => {
             color: 'border-emerald-200 bg-emerald-50 text-emerald-600',
             cta: 'Add Team'
         }
-        // {
-        //     number: '03',
-        //     title: 'Initialize Leases',
-        //     description: 'Enter your first lease or use bulk import to go live.',
-        //     path: '/create-company',
-        //     icon: FileText,
-        //     color: 'border-purple-200 bg-purple-50 text-purple-600',
-        //     cta: 'Create Lease'
-        // }
     ];
 
     return (
