@@ -24,6 +24,8 @@ export const UserCreationPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordMatchError, setPasswordMatchError] = useState<string | null>(null);
     const doneSection = 'company';
 
     const [formData, setFormData] = useState<UserCreateRequest>({
@@ -55,6 +57,24 @@ export const UserCreationPage = () => {
         if (name === 'passwordHash') {
             const validation = validatePassword(value);
             setPasswordErrors(validation.errors);
+            // Check if confirm password matches
+            if (confirmPassword && value !== confirmPassword) {
+                setPasswordMatchError('Passwords do not match');
+            } else if (confirmPassword && value === confirmPassword) {
+                setPasswordMatchError(null);
+            }
+        }
+    };
+
+    const handleConfirmPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = e.target;
+        setConfirmPassword(value);
+
+        // Validate that passwords match
+        if (value && formData.passwordHash !== value) {
+            setPasswordMatchError('Passwords do not match');
+        } else if (value && formData.passwordHash === value) {
+            setPasswordMatchError(null);
         }
     };
 
@@ -69,6 +89,15 @@ export const UserCreationPage = () => {
         if (!passwordValidation.isStrong) {
             setError('Please fix password requirements before proceeding');
             setPasswordErrors(passwordValidation.errors);
+            setLoading(false);
+            setIsLoading(false);
+            return;
+        }
+
+        // Validate password confirmation
+        if (formData.passwordHash !== confirmPassword) {
+            setError('Passwords do not match. Please confirm your password.');
+            setPasswordMatchError('Passwords do not match');
             setLoading(false);
             setIsLoading(false);
             return;
@@ -209,6 +238,8 @@ export const UserCreationPage = () => {
                                             placeholder="john@company.com"
                                             disabled
                                         />
+                                    </div>
+                                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6 mt-5'>
                                         <InputGroup
                                             label="Password"
                                             name="passwordHash"
@@ -218,7 +249,29 @@ export const UserCreationPage = () => {
                                             required
                                             placeholder="••••••••"
                                         />
+                                        <InputGroup
+                                            label="Confirm Password"
+                                            name="confirmPassword"
+                                            type="password"
+                                            value={confirmPassword}
+                                            onChange={handleConfirmPasswordChange}
+                                            required
+                                            placeholder="••••••••"
+                                        />
+
                                     </div>
+                                    {passwordMatchError && (
+                                        <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl flex items-start gap-2">
+                                            <AlertCircle size={16} className="text-red-600 mt-0.5 shrink-0" />
+                                            <p className="text-xs font-bold text-red-700">{passwordMatchError}</p>
+                                        </div>
+                                    )}
+                                    {formData.passwordHash && confirmPassword && !passwordMatchError && (
+                                        <div className="mt-3 p-3 bg-emerald-50 border border-emerald-100 rounded-xl flex items-center gap-2">
+                                            <CheckCircle size={16} className="text-emerald-600" />
+                                            <p className="text-xs font-bold text-emerald-700 uppercase">Passwords match</p>
+                                        </div>
+                                    )}
 
                                     {/* Password Requirements */}
                                     {formData.passwordHash && passwordErrors.length > 0 && (
@@ -237,8 +290,8 @@ export const UserCreationPage = () => {
 
                                     {/* Password Strength Indicator */}
                                     {formData.passwordHash && passwordErrors.length === 0 && (
-                                        <div className="mt-6 p-4 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center gap-3">
-                                            <CheckCircle className="text-emerald-600" size={20} />
+                                        <div className="mt-4 p-3 bg-emerald-50 border border-emerald-100 rounded-2xl flex items-center gap-3">
+                                            <CheckCircle className="text-emerald-600" size={16} />
                                             <p className="text-xs font-bold text-emerald-700 uppercase tracking-wide">Password is strong</p>
                                         </div>
                                     )}
@@ -266,20 +319,18 @@ export const UserCreationPage = () => {
                                         />
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <InputGroup
-                                                label="Phone Number"
+                                                label="Phone Number (Optional)"
                                                 name="phoneNumber"
                                                 type="tel"
                                                 value={formData.phoneNumber}
                                                 onChange={handleInputChange}
-                                                required
                                                 placeholder="+1 (555) 000-0000"
                                             />
                                             <InputGroup
-                                                label="Physical Address"
+                                                label="Physical Address (Optional)"
                                                 name="userAddress"
                                                 value={formData.userAddress}
                                                 onChange={handleInputChange}
-                                                required
                                                 placeholder="Street, City, Country"
                                             />
                                         </div>
@@ -300,7 +351,7 @@ export const UserCreationPage = () => {
                         <div className="flex items-center gap-4 w-full md:w-auto">
                             <button
                                 onClick={handleSubmit}
-                                disabled={loading || !formData.passwordHash || !formData.username}
+                                disabled={loading || !formData.passwordHash || !formData.username || !confirmPassword || !!passwordMatchError}
                                 className="cursor-pointer flex-1 md:flex-none bg-[#003399] text-white px-12 py-4 rounded-2xl font-black flex items-center justify-center gap-3 shadow-xl shadow-blue-900/10 hover:shadow-blue-900/30 transition-all active:scale-95 disabled:opacity-50 disabled:grayscale"
                             >
                                 Complete Setup
