@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
     Building2, Users, FileText, UploadCloud,
     Calculator, Edit3, PieChart, ShieldCheck, RefreshCw, ArrowRight, CheckCircle2,
-    ChevronRight, Zap, ArrowUpRight, BarChart3, Lock, Mail, Phone, MapPin, Linkedin, Twitter
+    Zap, Mail, Phone, MapPin, Linkedin, Twitter
 } from 'lucide-react';
+import HeroSection from '../components/HeroSection';
 
 export const HomePage = () => {
     const [activeSlide, setActiveSlide] = useState(0);
@@ -42,37 +43,17 @@ export const HomePage = () => {
 
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-indigo-100">
-
             {/* --- 1. HERO SECTION --- */}
-            <section className="relative w-full pt-20 pb-12 md:pt-32 md:pb-24 px-4 overflow-hidden bg-gradient-to-b from-slate-50 to-white">
-                <div className="max-w-7xl mx-auto text-center">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs md:text-sm font-bold mb-8 animate-pulse">
-                        <ShieldCheck size={16} /> IFRS 16 Compliance Made Simple
-                    </div>
-                    <h1 className="text-4xl md:text-7xl font-black text-slate-900 tracking-tight mb-8 leading-[1.1]">
-                        Precision Lease Management <br />
-                        <span className="text-[#003399] underline decoration-indigo-200">for Modern Finance.</span>
-                    </h1>
-                    <p className="text-lg md:text-xl text-slate-500 max-w-3xl mx-auto mb-10 leading-relaxed">
-                        Automate your IFRS 16 workflows, eliminate manual errors, and generate audit-ready reports in seconds with PCI Management.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link to="/create-company" className="px-10 py-5 bg-[#003399] hover:bg-indigo-700 text-white rounded-2xl font-black shadow-xl shadow-blue-900/20 transition-all">
-                            Start for Free
-                        </Link>
-                    </div>
-                </div>
-            </section>
-
+            <HeroSection />
             {/* --- 2. TRUSTED CLIENTS --- */}
             <section className="py-12 border-y border-slate-100 bg-white">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">Trusted by Global Entities</p>
                     <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-40 grayscale hover:grayscale-0 transition-all">
-                        <div className="text-xl font-black">FINTECH</div>
-                        <div className="text-xl font-black">LOGISTICS_PRO</div>
-                        <div className="text-xl font-black">EQUITY_GROUP</div>
-                        <div className="text-xl font-black">RETAIL_GLOBAL</div>
+                        <div className="text-xl font-black">ABHI BANK</div>
+                        <div className="text-xl font-black">ROSHAN TELECOM</div>
+                        <div className="text-xl font-black">MMBL</div>
+                        {/* <div className="text-xl font-black"></div> */}
                     </div>
                 </div>
             </section>
@@ -135,8 +116,8 @@ export const HomePage = () => {
                         <div className="space-y-4">
                             {[
                                 { title: 'Company Creation', path: '/create-company', icon: Building2 },
-                                { title: 'User Management', path: '/create-user', icon: Users },
-                                { title: 'Lease Repository', path: '/create-lease', icon: FileText }
+                                { title: 'User Management', path: '/create-company', icon: Users },
+                                { title: 'Lease Repository', path: '/create-company', icon: FileText }
                             ].map((item, idx) => (
                                 <Link key={idx} to={item.path} className="flex items-center p-5 rounded-2xl border border-slate-100 hover:border-indigo-300 hover:bg-indigo-50 transition-all group">
                                     <div className="bg-slate-900 p-3 rounded-xl mr-5 group-hover:bg-[#003399] transition-colors"><item.icon size={22} className="text-white" /></div>
