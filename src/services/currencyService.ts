@@ -1,6 +1,6 @@
 import API_CONFIG from '../config/api.config';
 import type { ApiError } from '../types/api.types';
-import ApiClient, { apiClient } from './apiClient';
+import { apiClient } from './apiClient';
 import { tokenService } from './tokenService';
 
 export interface Currency {
