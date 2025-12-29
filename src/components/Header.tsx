@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/proLogo.png';
 
 export const Header = () => {
     const navigate = useNavigate();
@@ -9,7 +10,7 @@ export const Header = () => {
                     {/* Logo Section */}
                     <div className="flex items-center gap-2 cursor-pointer">
                         <img
-                            src="/src/assets/proLogo.png"
+                            src={logo}
                             alt="ProConsult International"
                             className="h-12 object-contain"
                             onClick={() => navigate('/')}

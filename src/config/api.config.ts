@@ -14,7 +14,7 @@ export const API_CONFIG = {
         GET_ALL_CURRENCIES: '/Currency/GetAllCurrencies',
     },
     LEASE_ENDPOINTS: {
-        CREATE_DEMO_LEASE: '/api/LeaseFormData',
+        CREATE_DEMO_LEASE: '/LeaseFormData',
     },
     TIMEOUT: 30000, // 30 seconds
 };
