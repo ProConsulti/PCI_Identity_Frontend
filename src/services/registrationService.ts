@@ -3,10 +3,7 @@ import type {
   CompanyCreateResponse,
   UserCreateRequest,
   UserCreateResponse,
-  LeaseCreateRequest,
-  LeaseCreateResponse,
   UserExistRequest,
-  ApiResponse,
   ApiError,
 } from '../types/api.types';
 import { apiClient } from './apiClient';
@@ -59,34 +56,6 @@ class RegistrationService {
       throw error;
     }
   }
-
-  /**
-   * Create a new lease
-   */
-  async createLease(data: LeaseCreateRequest): Promise<LeaseCreateResponse> {
-    try {
-      // Ensure token is available before making API call
-      await tokenService.ensureToken();
-
-      const response = await apiClient.post<ApiResponse<LeaseCreateResponse>>(
-        API_CONFIG.ENDPOINTS.REGISTER_LEASE,
-        data
-      );
-
-      if (response.success && response.data) {
-        return response.data;
-      }
-
-      throw {
-        status: 400,
-        message: response.error || 'Failed to create lease',
-      } as ApiError;
-    } catch (error) {
-      this.handleError(error);
-      throw error;
-    }
-  }
-
   /**
    * Check if a user with the given email already exists
    */

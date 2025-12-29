@@ -6,12 +6,12 @@ export const API_CONFIG = {
     PCI_IDENTITY_SERVICE: PCI_IDENTITY_SERVICE,
     IFRS16_SERVICE: IFRS16_SERVICE,
     ENDPOINTS: {
-        GENERATE_TOKEN: '/api/GenerateToken/token',
-        REGISTER_COMPANY: '/api/Registration/company',
-        REGISTER_USER: '/api/Registration',
-        REGISTER_LEASE: '/api/Registration/lease',
-        USER_EXIST: '/api/User/UserExist',
-        GET_ALL_CURRENCIES: '/api/Currency/GetAllCurrencies',
+        GENERATE_TOKEN: '/GenerateToken/token',
+        REGISTER_COMPANY: '/Registration/company',
+        REGISTER_USER: '/Registration',
+        REGISTER_LEASE: '/Registration/lease',
+        USER_EXIST: '/User/UserExist',
+        GET_ALL_CURRENCIES: '/Currency/GetAllCurrencies',
     },
     LEASE_ENDPOINTS: {
         CREATE_DEMO_LEASE: '/api/LeaseFormData',

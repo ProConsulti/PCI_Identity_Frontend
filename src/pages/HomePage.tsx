@@ -50,10 +50,13 @@ export const HomePage = () => {
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">Trusted by Global Entities</p>
                     <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-40 grayscale hover:grayscale-0 transition-all">
-                        <div className="text-xl font-black">ABHI BANK</div>
+                        <div className="text-xl font-black">ABHI MICROFINANCE BANK</div>
                         <div className="text-xl font-black">ROSHAN TELECOM</div>
                         <div className="text-xl font-black">MMBL</div>
-                        {/* <div className="text-xl font-black"></div> */}
+                        <div className="text-xl font-black">UBANK</div>
+                        <div className="text-xl font-black">HALAN MICROFINANCE BANK</div>
+                        <div className="text-xl font-black">AZIZI BANK</div>
+                        <div className="text-xl font-black">MISFA</div>
                     </div>
                 </div>
             </section>
