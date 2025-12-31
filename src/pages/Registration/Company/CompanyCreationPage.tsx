@@ -5,19 +5,18 @@ import {
 } from 'lucide-react';
 import { registrationService } from '../../../services/registrationService';
 import { currencyService, type Currency } from '../../../services/currencyService';
-import { useAppDispatch } from '../../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
 import { setCompanyData } from '../../../store/registrationSlice';
 import InputGroup from '../../../components/InputGroup';
-import { validateEmail } from '../../../utils/emailValidator';
 import type { CompanyCreateRequest, CompanyCreateResponse } from '../../../types/api.types';
 import { COMPANY_DEFAULTS } from '../../../constants/companyDefaults';
 
 export const CompanyCreationPage = () => {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
+    const userEmail = useAppSelector((state) => state.registration.userEmail);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [emailError, setEmailError] = useState<string | null>(null);
     const [currencies, setCurrencies] = useState<Currency[]>([]);
     const [currenciesLoading, setCurrenciesLoading] = useState(true);
 
@@ -27,6 +26,16 @@ export const CompanyCreationPage = () => {
         reportingCurrencyId: 0,
         reportingCurrencyCode: "",
     });
+
+    // Set verified email on component mount
+    useEffect(() => {
+        if (userEmail) {
+            setFormData(prev => ({ ...prev, email: userEmail }));
+        } else {
+            // If no verified email, redirect back to OTP verification
+            navigate('/verify-email');
+        }
+    }, [userEmail, navigate]);
 
     // Fetch currencies on component mount
     useEffect(() => {
@@ -62,12 +71,6 @@ export const CompanyCreationPage = () => {
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-
-        // Validate email on change
-        if (name === 'email') {
-            const validation = validateEmail(value);
-            setEmailError(validation.error);
-        }
     };
 
     const handleCurrencyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -88,14 +91,7 @@ export const CompanyCreationPage = () => {
         setLoading(true);
         setError(null);
 
-        // Validate email before submission
-        const emailValidation = validateEmail(formData.email);
-        if (!emailValidation.isValid) {
-            setError(emailValidation.error);
-            setLoading(false);
-            return;
-        }
-
+        // Email is already verified, no need to validate again
         try {
             // First, check if email already exists
             const userExists = await registrationService.checkUserExists(formData.email);
@@ -175,20 +171,15 @@ export const CompanyCreationPage = () => {
 
                             <div>
                                 <InputGroup
-                                    label="Corporate Email Address"
+                                    label="Corporate Email Address (Verified)"
                                     name="email"
                                     type="email"
                                     value={formData.email}
-                                    onChange={handleInputChange}
+                                    disabled={true}
                                     required
                                     placeholder="admin@company.com"
                                 />
-                                {emailError && (
-                                    <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-xl flex items-start gap-2">
-                                        <AlertCircle size={16} className="text-red-600 mt-0.5 shrink-0" />
-                                        <p className="text-xs font-bold text-red-700">{emailError}</p>
-                                    </div>
-                                )}
+                                <p className="text-xs text-slate-500 mt-2 ml-1">Email verified via OTP. Not editable.</p>
                             </div>
 
                             <div>
@@ -227,7 +218,7 @@ export const CompanyCreationPage = () => {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        disabled={loading || !formData.name || !formData.email || !!emailError || currenciesLoading}
+                        disabled={loading || !formData.name || currenciesLoading}
                         className="cursor-pointer w-full bg-[#003399] hover:bg-[#002266] disabled:opacity-50 disabled:grayscale text-white py-5 rounded-[2rem] font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/20 transition-all active:scale-[0.98] group"
                     >
                         {loading ? "Initializing..." : "Proceed to User Setup"}

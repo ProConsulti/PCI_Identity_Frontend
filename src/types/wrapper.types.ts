@@ -1,4 +1,4 @@
-export type RegistrationStep = 'company' | 'user' | 'lease';
+export type RegistrationStep = 'company' | 'user' | 'verify';
 
 export interface StepConfig {
     id: RegistrationStep;

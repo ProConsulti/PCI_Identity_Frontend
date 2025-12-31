@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
+import OtpVerificationPage from '../pages/Registration/OTP/OtpVerificationPage';
 import CompanyCreationPage from '../pages/Registration/Company/CompanyCreationPage';
 import UserCreationPage from '../pages/Registration/User/UserCreationPage';
 import LeaseCreationPage from '../pages/Registration/Lease/LeaseCreationPage';
@@ -8,6 +9,10 @@ export const routes: RouteObject[] = [
   {
     path: '/',
     element: <HomePage />,
+  },
+  {
+    path: '/verify-email',
+    element: <OtpVerificationPage />,
   },
   {
     path: '/create-company',

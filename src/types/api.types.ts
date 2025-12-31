@@ -30,6 +30,24 @@ export interface CompanyCreateResponse {
     allowedLease: number;
 }
 
+// OTP Types
+export interface SendOtpRequest {
+    email: string;
+}
+
+export interface SendOtpResponse {
+    success: boolean,
+    message: string,
+    data?: {
+        email: string;
+    }
+}
+
+export interface VerifyOtpRequest {
+    email: string;
+    otp: string;
+}
+
 // User Existence Check
 export interface UserExistRequest {
     email: string;

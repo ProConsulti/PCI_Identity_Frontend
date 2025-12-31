@@ -17,6 +17,9 @@ const registrationSlice = createSlice({
     name: 'registration',
     initialState,
     reducers: {
+        setUserEmail: (state: RegistrationState, action: PayloadAction<string>) => {
+            state.userEmail = action.payload;
+        },
         setCompanyData: (state: RegistrationState, action: PayloadAction<{ companyID: number; userEmail: string; currencyID: number }>) => {
             state.companyID = action.payload.companyID;
             state.userEmail = action.payload.userEmail;
@@ -30,5 +33,5 @@ const registrationSlice = createSlice({
     },
 });
 
-export const { setCompanyData, clearRegistrationData } = registrationSlice.actions;
+export const { setUserEmail, setCompanyData, clearRegistrationData } = registrationSlice.actions;
 export default registrationSlice.reducer;

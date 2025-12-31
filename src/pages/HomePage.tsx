@@ -118,9 +118,9 @@ export const HomePage = () => {
                         <h2 className="text-4xl font-bold mb-6">Management Portal</h2>
                         <div className="space-y-4">
                             {[
-                                { title: 'Company Creation', path: '/create-company', icon: Building2 },
-                                { title: 'User Management', path: '/create-company', icon: Users },
-                                { title: 'Lease Repository', path: '/create-company', icon: FileText }
+                                { title: 'Company Creation', path: '/verify-email', icon: Building2 },
+                                { title: 'User Management', path: '/verify-email', icon: Users },
+                                { title: 'Lease Repository', path: '/verify-email', icon: FileText }
                             ].map((item, idx) => (
                                 <Link key={idx} to={item.path} className="flex items-center p-5 rounded-2xl border border-slate-100 hover:border-indigo-300 hover:bg-indigo-50 transition-all group">
                                     <div className="bg-slate-900 p-3 rounded-xl mr-5 group-hover:bg-[#003399] transition-colors"><item.icon size={22} className="text-white" /></div>
@@ -133,7 +133,7 @@ export const HomePage = () => {
                     <div className="bg-[#003399] rounded-[2.5rem] p-10 text-white">
                         <h3 className="text-2xl font-bold mb-8 flex items-center gap-2"><Zap className="text-yellow-400" /> Implementation</h3>
                         <div className="space-y-6">
-                            {['Onboard primary entity', 'Define user hierarchy', 'Configure currency', 'Bulk import portfolio'].map((step, i) => (
+                            {['Verify your email', 'Onboard primary entity', 'Define user hierarchy', 'Bulk import portfolio'].map((step, i) => (
                                 <div key={i} className="flex gap-4"><CheckCircle2 className="text-blue-300 shrink-0" /><p className="font-medium">{step}</p></div>
                             ))}
                         </div>
@@ -154,8 +154,8 @@ export const HomePage = () => {
                     <div>
                         <h4 className="font-black text-xs uppercase tracking-widest text-indigo-400 mb-6">Platform</h4>
                         <ul className="space-y-4 text-slate-400 text-sm font-bold">
-                            <li><Link to="/create-company" className="hover:text-white">Lease Ledger</Link></li>
-                            <li><Link to="/create-user" className="hover:text-white">User Access</Link></li>
+                            <li><Link to="/verify-email" className="hover:text-white">Lease Ledger</Link></li>
+                            <li><Link to="/verify-email" className="hover:text-white">User Access</Link></li>
                             <li><Link to="#" className="hover:text-white">Reporting</Link></li>
                         </ul>
                     </div>
@@ -169,7 +169,7 @@ export const HomePage = () => {
                     </div>
                     <div>
                         <h4 className="font-black text-xs uppercase tracking-widest text-indigo-400 mb-6">Action</h4>
-                        <Link to="/create-company" className="bg-white text-slate-900 px-6 py-4 rounded-xl font-black block text-center hover:bg-indigo-50 transition-all">Get Started Now</Link>
+                        <Link to="/verify-email" className="bg-white text-slate-900 px-6 py-4 rounded-xl font-black block text-center hover:bg-indigo-50 transition-all">Get Started Now</Link>
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 text-slate-500 text-[10px] font-black uppercase tracking-widest flex justify-between">

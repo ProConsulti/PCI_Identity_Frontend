@@ -1,6 +1,6 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { Check, Building2, UserCircle, ChevronRight } from 'lucide-react';
+import { Check, Building2, UserCircle, ChevronRight, Mail } from 'lucide-react';
 import type { RegistrationStep, StepConfig } from '../../types/wrapper.types';
 import { useOverlay } from '../../context/OverlayContext';
 import SetupOverlay from '../../components/SetupLoadingOverlay';
@@ -15,9 +15,9 @@ export const RegistrationWrapper: React.FC<Props> = ({ children }) => {
     const { isLoading, isSuccess, setIsSuccess } = useOverlay();
 
     const STEPS: StepConfig[] = [
+        { id: 'verify', label: 'Email Verification', description: 'OTP Verification', path: '/verify-email' },
         { id: 'company', label: 'Company Profile', description: 'Entity Details', path: '/create-company' },
-        { id: 'user', label: 'User Account', description: 'Admin Setup', path: '/create-user' },
-        // { id: 'lease', label: 'Lease Assets', description: 'Initial Portfolio', path: '/create-lease' },
+        { id: 'user', label: 'User Account', description: 'Admin Setup', path: '/create-user' }
     ];
     const location = useLocation();
 
@@ -29,7 +29,7 @@ export const RegistrationWrapper: React.FC<Props> = ({ children }) => {
         return <>{children}</>;
     }
     // Determine current index based on path
-    const currentIndex = STEPS.findIndex(step => location.pathname.includes(step.id)) || 0;
+    const currentIndex = Math.max(0, STEPS.findIndex(step => location.pathname.includes(step.id)));
     const progressPercentage = ((currentIndex + 1) / STEPS.length) * 100;
 
     const handleCloseSuccess = () => {
@@ -51,8 +51,8 @@ export const RegistrationWrapper: React.FC<Props> = ({ children }) => {
                         <div className="lg:hidden">
                             <div className="flex justify-between items-end mb-2">
                                 <div>
-                                    <p className="text-[10px] font-black text-[#003399] uppercase tracking-widest">Step {currentIndex + 1} of 3</p>
-                                    <h2 className="text-lg font-bold text-slate-900">{STEPS[currentIndex].label}</h2>
+                                    <p className="text-[10px] font-black text-[#003399] uppercase tracking-widest">Step {currentIndex + 1} of {STEPS.length}</p>
+                                    <h2 className="text-lg font-bold text-slate-900">{STEPS[currentIndex]?.label || 'Registration'}</h2>
                                 </div>
                                 <span className="text-sm font-bold text-slate-400">{Math.round(progressPercentage)}%</span>
                             </div>
@@ -108,9 +108,11 @@ export const RegistrationWrapper: React.FC<Props> = ({ children }) => {
 };
 
 // Helper to render specific icons
-const StepIcon = ({ id }: { id: RegistrationStep }) => {
+const StepIcon = ({ id }: { id: RegistrationStep | string }) => {
     switch (id) {
+        case 'verify': return <Mail size={22} />;
         case 'company': return <Building2 size={22} />;
         case 'user': return <UserCircle size={22} />;
+        default: return null;
     }
 };

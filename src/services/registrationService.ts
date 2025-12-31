@@ -4,6 +4,9 @@ import type {
   UserCreateRequest,
   UserCreateResponse,
   UserExistRequest,
+  SendOtpRequest,
+  SendOtpResponse,
+  VerifyOtpRequest,
   ApiError,
 } from '../types/api.types';
 import { apiClient } from './apiClient';
@@ -11,6 +14,48 @@ import { tokenService } from './tokenService';
 import API_CONFIG from '../config/api.config';
 
 class RegistrationService {
+  /**
+   * Send OTP to email
+   */
+  async sendOtp(email: string): Promise<SendOtpResponse> {
+    try {
+      // Ensure token is available before making API call
+      await tokenService.ensureToken();
+
+      const data: SendOtpRequest = { email };
+      const response = await apiClient.post<SendOtpResponse>(
+        API_CONFIG.ENDPOINTS.SEND_OTP,
+        data
+      );
+
+      return response;
+    } catch (error) {
+      this.handleError(error);
+      throw error;
+    }
+  }
+
+  /**
+   * Verify OTP
+   */
+  async verifyOtp(email: string, otp: string): Promise<{ success: boolean; message: string }> {
+    try {
+      // Ensure token is available before making API call
+      await tokenService.ensureToken();
+
+      const data: VerifyOtpRequest = { email, otp };
+      const response = await apiClient.post<{ success: boolean; message: string }>(
+        API_CONFIG.ENDPOINTS.VERIFY_OTP,
+        data
+      );
+
+      return response;
+    } catch (error) {
+      this.handleError(error);
+      throw error;
+    }
+  }
+
   /**
    * Create a new company
    */
