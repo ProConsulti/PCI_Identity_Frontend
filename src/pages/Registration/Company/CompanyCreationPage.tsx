@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-    ArrowRight, Info, ShieldCheck, Zap, AlertCircle
+    ArrowRight, Info, ShieldCheck, Zap
 } from 'lucide-react';
 import { registrationService } from '../../../services/registrationService';
 import { currencyService, type Currency } from '../../../services/currencyService';
