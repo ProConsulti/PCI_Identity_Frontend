@@ -3,25 +3,28 @@ import { Link } from 'react-router-dom';
 import {
     Building2, Users, FileText, UploadCloud,
     Calculator, Edit3, PieChart, ShieldCheck, RefreshCw, ArrowRight, CheckCircle2,
-    Zap, Mail, Phone, MapPin, Linkedin, Twitter
+    Zap, Mail, Phone, MapPin, Linkedin, Twitter,
+    Youtube
 } from 'lucide-react';
 import HeroSection from '../components/HeroSection';
+import ceo from '../assets/umer.jpg';
+import partner from '../assets/basit.jpg';
 
 export const HomePage = () => {
     const [activeSlide, setActiveSlide] = useState(0);
 
     const testimonials = [
         {
-            quote: "We built PCI because we saw CFOs struggling with manual IFRS 16 errors that cost millions in audit adjustments. Our mission is to automate the complexity.",
-            author: "Sarah Jenkins",
-            role: "Founder & CEO, ProConsult",
-            avatar: "https://i.pravatar.cc/150?u=sarah"
+            quote: "We built IFRS16 Pro because we saw CFOs struggling with manual IFRS 16 errors that cost millions in audit adjustments. Our mission is to automate the complexity.",
+            author: "Umar Daraz FCA",
+            role: "Founder, Senior Partner & CEO",
+            avatar: ceo
         },
         {
             quote: "Compliance shouldn't be a month-end nightmare. With this platform, we've turned a 4-day reporting cycle into a 15-minute automated task.",
-            author: "Marcus Chen",
-            role: "Chief Product Officer",
-            avatar: "https://i.pravatar.cc/150?u=marcus"
+            author: "Abdul Basit ACA",
+            role: "Partner & COO",
+            avatar: partner
         }
     ];
 
@@ -149,7 +152,11 @@ export const HomePage = () => {
                             <div className="w-8 h-8 bg-[#003399] rounded-lg" /> ProConsult
                         </div>
                         <p className="text-slate-400 text-sm">Empowering finance teams with precision lease accounting and automated compliance since 2018.</p>
-                        <div className="flex gap-4"><Linkedin size={20} className="text-slate-400 hover:text-white cursor-pointer" /><Twitter size={20} className="text-slate-400 hover:text-white cursor-pointer" /></div>
+                        <div className="flex gap-4">
+                            <a href='https://www.linkedin.com/company/proconsultinternational/?viewAsMember=true' target='_blank'><Linkedin size={20} className="text-slate-400 hover:text-white cursor-pointer" /></a>
+                            <a href='https://x.com/ProConsultInt' target='_blank'><Twitter size={20} className="text-slate-400 hover:text-white cursor-pointer" /></a>
+                            <a href='https://www.youtube.com/@proconsultinternational' target='_blank'><Youtube size={20} className="text-slate-400 hover:text-white cursor-pointer" /></a>
+                        </div>
                     </div>
                     <div>
                         <h4 className="font-black text-xs uppercase tracking-widest text-indigo-400 mb-6">Platform</h4>
@@ -162,9 +169,9 @@ export const HomePage = () => {
                     <div>
                         <h4 className="font-black text-xs uppercase tracking-widest text-indigo-400 mb-6">Contact Us</h4>
                         <ul className="space-y-4 text-slate-400 text-sm">
-                            <li className="flex items-center gap-3"><Mail size={16} className="text-[#003399]" /> support@ifrs.ca</li>
-                            <li className="flex items-center gap-3"><Phone size={16} className="text-[#003399]" /> +1 (800) 555-IFRS</li>
-                            <li className="flex items-start gap-3"><MapPin size={16} className="text-[#003399]" /> Financial District, Toronto,<br />Canada</li>
+                            <li className="flex items-center gap-3"><Mail size={16} className="text-[#003399]" /> info@proconsulti.com</li>
+                            <li className="flex items-center gap-3"><Phone size={16} className="text-[#003399]" /> +92 51 8442121 | +92 51 2120733</li>
+                            <li className="flex items-start gap-3"><MapPin size={16} className="text-[#003399]" />Pakistan | UAE | UK | Saudi Arabia | Afghanistan</li>
                         </ul>
                     </div>
                     <div>
@@ -173,8 +180,8 @@ export const HomePage = () => {
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 text-slate-500 text-[10px] font-black uppercase tracking-widest flex justify-between">
-                    <p>© 2025 PCI Management. All standards compliant.</p>
-                    <div className="flex gap-6"><p>Privacy</p><p>Terms</p></div>
+                    <p>© 2019-2025 ProConsult International. All rights reserved.</p>
+                    <div className="flex gap-6"><a href='https://www.proconsulti.com/privacy-and-policy' target='_blank'>Privacy & Terms</a></div>
                 </div>
             </footer>
         </div>

@@ -41,9 +41,6 @@ const IFRSHero = () => {
                             <button onClick={() => navigate("/verify-email")} className="cursor-pointer bg-blue-600 text-white px-8 py-4 rounded-lg font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center gap-2">
                                 Get Started <ArrowRight size={18} />
                             </button>
-                            <button className="bg-white text-slate-700 px-6 py-4 rounded-lg font-bold border border-slate-200 hover:border-blue-400 transition-all">
-                                View Reports
-                            </button>
                         </div>
                     </div>
 
