@@ -88,7 +88,7 @@ class RegistrationService {
         API_CONFIG.ENDPOINTS.REGISTER_USER,
         data
       );
-      if (response.userID) {
+      if (response.data.userId) {
         return response;
       }
 

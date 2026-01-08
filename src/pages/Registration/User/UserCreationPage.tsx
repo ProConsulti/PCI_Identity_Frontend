@@ -106,7 +106,6 @@ export const UserCreationPage = () => {
         try {
             // Create user first
             const userResponse: UserCreateResponse = await registrationService.createUser(formData);
-
             const demoLeasePayload: DemoLeaseRequest = {
                 leaseId: LEASE_DEFAULTS.LEASE_ID,
                 leaseName: LEASE_DEFAULTS.LEASE_NAME,
@@ -125,8 +124,8 @@ export const UserCreationPage = () => {
                 incrementalFrequency: LEASE_DEFAULTS.INCREMENTAL_FREQUENCY,
                 isActive: LEASE_DEFAULTS.IS_ACTIVE,
                 lastModifiedDate: LEASE_DEFAULTS.LAST_MODIFIED_DATE,
-                userId: userResponse.userID || "0",
-                userName: userResponse.username || formData.username,
+                userId: userResponse.data.userId.toString() || "0",
+                userName: formData.username,
                 isLeaseModified: LEASE_DEFAULTS.IS_LEASE_MODIFIED,
                 parentLeaseId: LEASE_DEFAULTS.PARENT_LEASE_ID,
             };

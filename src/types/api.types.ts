@@ -15,19 +15,12 @@ export interface CompanyCreateRequest {
 }
 
 export interface CompanyCreateResponse {
-    companyId: number;
-    id: number;
-    name: string;
-    registrationNumber: string;
-    reportingCurrencyId: number;
-    reportingCurrencyCode: string;
-    financialYearEnd: string;
-    leaseTypes: string;
-    assetType: string;
-    licenseKey?: string;
-    licenseExpiry: string;
-    allowedUsers: number;
-    allowedLease: number;
+    success: boolean;
+    message: string,
+    data: {
+        companyId: number,
+        name: string
+    }
 }
 
 // OTP Types
@@ -66,15 +59,12 @@ export interface UserCreateRequest {
 }
 
 export interface UserCreateResponse {
-    id: string;
-    userID: string;
-    username: string;
-    phoneNumber: string;
-    userAddress: string;
-    email: string;
-    companyID: string;
-    role: string;
-    createdAt: string;
+    success: true,
+    message: string,
+    data: {
+        userId: number,
+        email: string
+    }
 }
 
 // Lease Types

@@ -124,9 +124,9 @@ export const CompanyCreationPage = () => {
             };
 
             const companyData: CompanyCreateResponse = await registrationService.createCompany(finalPayload);
-            if (companyData.companyId) {
+            if (companyData.success) {
                 dispatch(setCompanyData({
-                    companyID: companyData.companyId,
+                    companyID: companyData.data.companyId,
                     userEmail: formData.email,
                     currencyID: formData.reportingCurrencyId,
                 }));
