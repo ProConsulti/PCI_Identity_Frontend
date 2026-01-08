@@ -1,4 +1,4 @@
-import { BrowserRouter, useRoutes } from 'react-router-dom';
+import { BrowserRouter, useRoutes, useLocation } from 'react-router-dom';
 import './App.css';
 import routes from './config/routes';
 import { Header } from './components/Header';
@@ -16,12 +16,20 @@ function App() {
         {/* The Header is now global across all routes */}
         <Header />
         {/* AppRoutes handles the switching of the page content */}
-        <RegistrationWrapper>
+        <ConditionalRegistrationWrapper>
           <AppRoutes />
-        </RegistrationWrapper>
+        </ConditionalRegistrationWrapper>
       </BrowserRouter>
     </OverlayProvider>
   );
 }
 
+function ConditionalRegistrationWrapper({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const hideWrapperPaths = ['/forgot-password', '/new-password'];
+  if (hideWrapperPaths.includes(location.pathname)) {
+    return <>{children}</>;
+  }
+  return <RegistrationWrapper>{children}</RegistrationWrapper>;
+}
 export default App;
