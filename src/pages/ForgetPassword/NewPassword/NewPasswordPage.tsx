@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { ShieldCheck, CheckCircle } from 'lucide-react';
 import InputGroup from '../../../components/InputGroup';
 import { validatePassword } from '../../../utils/passwordValidator';
+import { useAppSelector } from '../../../store/hooks';
+import { apiClient } from '../../../services/apiClient';
 
 const NewPasswordPage: React.FC = () => {
 	const navigate = useNavigate();
@@ -10,14 +12,19 @@ const NewPasswordPage: React.FC = () => {
 	const [confirm, setConfirm] = useState('');
 	const [error, setError] = useState<string | null>(null);
 	const [success, setSuccess] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const location = useLocation();
+	const reduxEmail = useAppSelector((state) => state.registration.userEmail);
+	const emailFromState = (location.state as any)?.email as string | undefined;
+	const email = emailFromState || reduxEmail;
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		setError(null);
 
 		const validation = validatePassword(password);
-		if (!validation.isValid) {
-			setError(validation.error);
+		if (!validation.isStrong) {
+			setError((validation.errors || []).join('; '));
 			return;
 		}
 		if (password !== confirm) {
@@ -25,8 +32,22 @@ const NewPasswordPage: React.FC = () => {
 			return;
 		}
 
-		// TODO: call API to set new password (include token if needed)
-		setSuccess(true);
+		if (!email) {
+			setError('Missing email. Please restart the forgot-password flow.');
+			return;
+		}
+
+		try {
+			setLoading(true);
+			console.log('Calling ForgotPassword API with', { email, password });
+			await apiClient.post<any>('/User/ForgotPassword', { email, password });
+			window.alert('Password updated successfully');
+			setSuccess(true);
+		} catch (err: any) {
+			setError(err?.message || 'Failed to update password. Please try again.');
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	if (success) {

@@ -83,8 +83,8 @@ const ForgotPassword: React.FC = () => {
 			const response = await registrationService.verifyOtp(email, otp);
 			if (response.success) {
 				dispatch(setUserEmail(email));
-				// After verification for forgot-password flow, go to new password page
-				navigate('/new-password');
+				// After verification for forgot-password flow, go to new password page and pass email in state
+				navigate('/new-password', { state: { email } });
 			} else {
 				setError('Invalid OTP. Please try again.');
 			}
