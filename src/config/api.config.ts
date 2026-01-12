@@ -14,6 +14,7 @@ export const API_CONFIG = {
         REGISTER_LEASE: '/Registration/lease',
         USER_EXIST: '/User/UserExist',
         GET_ALL_CURRENCIES: '/Currency/GetAllCurrencies',
+        FORGOT_PASSWORD: '/User/ForgotPassword',
     },
     LEASE_ENDPOINTS: {
         CREATE_DEMO_LEASE: '/LeaseFormData',

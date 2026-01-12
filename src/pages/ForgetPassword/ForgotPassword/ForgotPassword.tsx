@@ -58,7 +58,7 @@ const ForgotPassword: React.FC = () => {
 		}
 
 		try {
-			await registrationService.sendOtp(email);
+			await registrationService.sendOtp(email, true);
 			setCurrentStep('verify');
 			setOtpTimer(300);
 		} catch (err: any) {
@@ -230,15 +230,10 @@ const ForgotPassword: React.FC = () => {
 						{loading ? (currentStep === 'email' ? "Sending OTP..." : "Verifying...") : (currentStep === 'email' ? "Send Code" : "Verify & Continue")}
 						<ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
 					</button>
-
-					<div className="flex items-center justify-center gap-2 text-slate-400">
-						<ShieldCheck size={16} />
-						<span className="text-[11px] font-bold uppercase tracking-widest">Enterprise-Grade Security</span>
-					</div>
 				</form>
 			</div>
 		</div>
 	);
 };
-
+	
 export default ForgotPassword;
