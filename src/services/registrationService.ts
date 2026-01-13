@@ -17,12 +17,12 @@ class RegistrationService {
   /**
    * Send OTP to email
    */
-  async sendOtp(email: string): Promise<SendOtpResponse> {
+  async sendOtp(email: string, fromForgotPassword: boolean = false): Promise<SendOtpResponse> {
     try {
       // Ensure token is available before making API call
       await tokenService.ensureToken();
 
-      const data: SendOtpRequest = { email };
+      const data: SendOtpRequest = { email, fromForgotPassword };
       const response = await apiClient.post<SendOtpResponse>(
         API_CONFIG.ENDPOINTS.SEND_OTP,
         data

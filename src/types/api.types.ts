@@ -26,6 +26,7 @@ export interface CompanyCreateResponse {
 // OTP Types
 export interface SendOtpRequest {
     email: string;
+    fromForgotPassword?: boolean;
 }
 
 export interface SendOtpResponse {

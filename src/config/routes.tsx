@@ -4,6 +4,8 @@ import OtpVerificationPage from '../pages/Registration/OTP/OtpVerificationPage';
 import CompanyCreationPage from '../pages/Registration/Company/CompanyCreationPage';
 import UserCreationPage from '../pages/Registration/User/UserCreationPage';
 import LeaseCreationPage from '../pages/Registration/Lease/LeaseCreationPage';
+import ForgotPasswordPage from '../pages/ForgetPassword/ForgotPassword/ForgotPassword';
+import NewPasswordPage from '../pages/ForgetPassword/NewPassword/NewPasswordPage';
 
 export const routes: RouteObject[] = [
   {
@@ -25,6 +27,14 @@ export const routes: RouteObject[] = [
   {
     path: '/create-lease',
     element: <LeaseCreationPage />,
+  },
+  {
+    path: '/forgot-password',
+    element: <ForgotPasswordPage />,
+  },
+  {
+    path: '/new-password',
+    element: <NewPasswordPage />,
   },
   {
     path: '*',
