@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-	ArrowRight, Mail, AlertCircle, Zap, ShieldCheck, ArrowLeft
+	ArrowRight, Mail, AlertCircle, Zap, ArrowLeft
 } from 'lucide-react';
 import { registrationService } from '../../../services/registrationService';
 import { useAppDispatch } from '../../../store/hooks';
