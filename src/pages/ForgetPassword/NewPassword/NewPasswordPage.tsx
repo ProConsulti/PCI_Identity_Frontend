@@ -9,16 +9,16 @@ import { forgotPasswordService } from '../../../services/forgotPasswordService';
 const NewPasswordPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    
+
     // Form State
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
-    
+
     // Status State
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-    
+
     // Validation State
     const [passwordErrors, setPasswordErrors] = useState<string[]>([]);
     const [passwordMatchError, setPasswordMatchError] = useState<string | null>(null);
@@ -79,7 +79,13 @@ const NewPasswordPage: React.FC = () => {
                         <p className="text-sm text-slate-500 mb-8">Your password has been updated successfully. You can now sign in with your new credentials.</p>
                         <button
                             className="w-full bg-[#003399] hover:bg-[#002266] text-white py-4 rounded-2xl font-black transition-all"
-                            onClick={() => navigate('https://ifrs16.ifrs.ca/')}
+                            onClick={() => {
+                                // Open external sign-in in new tab
+                                window.open('https://ifrs16.ifrs.ca/', '_blank', 'noopener,noreferrer');
+
+                                // Navigate current app to default/home page
+                                navigate('/');
+                            }}
                         >
                             Go to Sign in
                         </button>
@@ -155,9 +161,8 @@ const NewPasswordPage: React.FC = () => {
 
                             {/* Match Validation Message */}
                             {confirm && (
-                                <div className={`p-3 border rounded-xl flex items-center gap-2 animate-in fade-in slide-in-from-top-1 ${
-                                    passwordMatchError ? 'bg-red-50 border-red-100' : 'bg-emerald-50 border-emerald-100'
-                                }`}>
+                                <div className={`p-3 border rounded-xl flex items-center gap-2 animate-in fade-in slide-in-from-top-1 ${passwordMatchError ? 'bg-red-50 border-red-100' : 'bg-emerald-50 border-emerald-100'
+                                    }`}>
                                     {passwordMatchError ? (
                                         <>
                                             <AlertCircle size={16} className="text-red-600" />

@@ -126,11 +126,11 @@ const ForgotPassword: React.FC = () => {
 							<div className="flex flex-col items-center flex-1">
 								<div className={`w-10 h-10 rounded-full font-black text-sm flex items-center justify-center transition-all ${currentStep === 'verify' ? 'bg-[#003399] text-white' : 'bg-slate-100 text-slate-400'}`}>
 									2
-								</div>
+								</div> 
 								<p className="text-[10px] font-bold text-slate-500 mt-2 uppercase">Verify</p>
 							</div>
-						</div>
-					</div>
+						</div> 
+					</div> 
 
 					<div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-xl shadow-blue-900/5 p-8 md:p-10">
 
