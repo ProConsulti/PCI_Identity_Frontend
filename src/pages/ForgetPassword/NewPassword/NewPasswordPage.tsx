@@ -5,10 +5,12 @@ import InputGroup from '../../../components/InputGroup';
 import { validatePassword } from '../../../utils/passwordValidator';
 import { useAppSelector } from '../../../store/hooks';
 import { forgotPasswordService } from '../../../services/forgotPasswordService';
+import getApiBaseUrl from '../../../config/domain.config';
 
 const NewPasswordPage: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
+    const baseUrl = getApiBaseUrl()
 
     // Form State
     const [password, setPassword] = useState('');
@@ -81,7 +83,7 @@ const NewPasswordPage: React.FC = () => {
                             className="w-full bg-[#003399] hover:bg-[#002266] text-white py-4 rounded-2xl font-black transition-all"
                             onClick={() => {
                                 // Open external sign-in in new tab
-                                window.open('https://ifrs16.ifrs.ca/', '_blank', 'noopener,noreferrer');
+                                window.open(`${baseUrl.ifrsService}/`, '_blank', 'noopener,noreferrer');
 
                                 // Navigate current app to default/home page
                                 navigate('/');

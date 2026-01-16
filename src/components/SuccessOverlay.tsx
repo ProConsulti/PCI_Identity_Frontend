@@ -7,6 +7,7 @@ import {
     UserCheck,
     ExternalLink
 } from 'lucide-react';
+import getApiBaseUrl from '../config/domain.config';
 
 interface SuccessOverlayProps {
     isOpen: boolean;
@@ -15,7 +16,7 @@ interface SuccessOverlayProps {
 
 const SuccessOverlay: React.FC<SuccessOverlayProps> = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
-
+    const baseUrl = getApiBaseUrl()
     // LOCK SCROLL: Ensures the user cannot scroll the page behind the popup
     useEffect(() => {
         if (isOpen) {
@@ -36,7 +37,7 @@ const SuccessOverlay: React.FC<SuccessOverlayProps> = ({ isOpen, onClose }) => {
         // Close the overlay
         onClose?.();
         // Open the IFRS link in a new tab
-        window.open('https://ifrs16.ifrs.ca', '_blank');
+        window.open(`${baseUrl.ifrsService}/`, '_blank');
         // Navigate current window to home
         navigate('/');
     };

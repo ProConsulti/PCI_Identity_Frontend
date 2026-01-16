@@ -1,10 +1,14 @@
-// API Configuration
-const PCI_IDENTITY_SERVICE = import.meta.env.VITE_PCI_IDENTITY_SERVICE || 'https://localhost:7269/api';
-const IFRS16_SERVICE = import.meta.env.VITE_IFRS16_SERVICE || 'https://localhost:7151/api';
+import getApiBaseUrl from "./domain.config";
 
+interface ApiBaseUrl {
+    identityService: string;
+    ifrsService: string;
+}
+
+const { identityService, ifrsService }: ApiBaseUrl = getApiBaseUrl();
 export const API_CONFIG = {
-    PCI_IDENTITY_SERVICE: PCI_IDENTITY_SERVICE,
-    IFRS16_SERVICE: IFRS16_SERVICE,
+    PCI_IDENTITY_SERVICE: `${identityService}/api`,
+    IFRS16_SERVICE: `${ifrsService}/api`,
     ENDPOINTS: {
         GENERATE_TOKEN: '/GenerateToken/token',
         SEND_OTP: '/Registration/send-otp',

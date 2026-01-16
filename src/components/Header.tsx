@@ -1,9 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { LogIn, UserPlus } from "lucide-react";
 import logo from '../assets/proLogo.png';
+import getApiBaseUrl from "../config/domain.config";
 
 export const Header = () => {
     const navigate = useNavigate();
+    const baseUrl = getApiBaseUrl()
 
     return (
         <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-blue-50 px-4 md:px-8 py-3 shadow-sm">
@@ -25,7 +27,7 @@ export const Header = () => {
                 <div className="flex items-center gap-2 md:gap-4">
                     {/* Login Button - Opens in New Tab */}
                     <a
-                        href="https://ifrs16.ifrs.ca/" // Replace with your actual login URL
+                        href={`${baseUrl.ifrsService}/`} // Replace with your actual login URL
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 px-4 py-2 text-sm font-semibold text-blue-700 hover:text-blue-800 hover:bg-blue-50 rounded-full transition-all duration-200"
