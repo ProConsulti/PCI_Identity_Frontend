@@ -72,15 +72,6 @@ const IFRSHero = () => {
                                     >
                                         Your browser does not support the video tag.
                                     </video>
-                                    <div className="flex justify-end mt-4">
-                                        <a 
-                                            href={heroVideo} 
-                                            download="IFRS16-Demo.mp4"
-                                            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-all shadow-lg"
-                                        >
-                                            Download Video
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
 
