@@ -9,6 +9,8 @@ import {
 import HeroSection from '../components/HeroSection';
 import ceo from '../assets/umer.jpg';
 import partner from '../assets/basit.jpg';
+import abhiLogo from '../assets/AbhiMicrofinanceBankLogo.png';
+import roshanLogo from '../assets/RoshanLogo.png';
 
 export const HomePage = () => {
     const [activeSlide, setActiveSlide] = useState(0);
@@ -52,14 +54,20 @@ export const HomePage = () => {
             <section className="py-12 border-y border-slate-100 bg-white">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 mb-8">Trusted by Global Entities</p>
-                    <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-40 grayscale hover:grayscale-0 transition-all">
-                        <div className="text-xl font-black">ABHI MICROFINANCE BANK</div>
-                        <div className="text-xl font-black">ROSHAN TELECOM</div>
-                        <div className="text-xl font-black">MMBL</div>
+                    <div className="flex flex-wrap justify-center items-center gap-12 md:gap-20 opacity-100 transition-all">
+                        <div className="flex flex-col items-center gap-3">
+                            <img src={abhiLogo} alt="ABHI Microfinance Bank" className="h-16 w-auto object-contain" />
+                            <p className="text-sm font-bold text-slate-600">ABHI MICROFINANCE BANK</p>
+                        </div>
+                        <div className="flex flex-col items-center gap-3">
+                            <img src={roshanLogo} alt="Roshan Telecom" className="h-16 w-auto object-contain" />
+                            <p className="text-sm font-bold text-slate-600">ROSHAN TELECOM</p>
+                        </div>
+                        {/* <div className="text-xl font-black">MMBL</div>
                         <div className="text-xl font-black">UBANK</div>
                         <div className="text-xl font-black">HALAN MICROFINANCE BANK</div>
                         <div className="text-xl font-black">AZIZI BANK</div>
-                        <div className="text-xl font-black">MISFA</div>
+                        <div className="text-xl font-black">MISFA</div> */}
                     </div>
                 </div>
             </section>

@@ -24,6 +24,6 @@ export const API_CONFIG = {
         CREATE_DEMO_LEASE: '/LeaseFormData',
     },
     TIMEOUT: 30000, // 30 seconds
-};
+}; 
 
 export default API_CONFIG;
