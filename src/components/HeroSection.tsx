@@ -1,7 +1,6 @@
 import { ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import heroImg from '../assets/ifrs16demo.png';
-
+import heroVideo from '../assets/ifrs16demo.mp4';
 const IFRSHero = () => {
     const navigate = useNavigate()
     return (
@@ -16,7 +15,7 @@ const IFRSHero = () => {
                     <div className="lg:col-span-5 pt-12 pb-12 lg:py-32">
                         <div className="flex items-center gap-2 text-blue-600 font-bold text-xs uppercase tracking-widest mb-6">
                             <span className="w-8 h-[2px] bg-blue-600"></span>
-                            IFRS 16 & ASC 842 Certified
+                            IFRS 16 & ASC 842 Compliant
                         </div>
 
                         <h1 className="text-5xl xl:text-6xl font-black text-slate-900 leading-[1.05] tracking-tight">
@@ -61,8 +60,28 @@ const IFRSHero = () => {
                                     </div>
                                 </div>
 
-                                {/* THE IMAGE */}
-                                <img src={heroImg} alt="IFRS 16 Tool Preview" className="w-full h-auto block object-cover" />
+                                {/* THE VIDEO */}
+                                <div className="relative">
+                                    <video 
+                                        src={heroVideo} 
+                                        className="w-full h-auto block object-cover"
+                                        controls
+                                        autoPlay
+                                        muted
+                                        loop
+                                    >
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <div className="flex justify-end mt-4">
+                                        <a 
+                                            href={heroVideo} 
+                                            download="IFRS16-Demo.mp4"
+                                            className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-all shadow-lg"
+                                        >
+                                            Download Video
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Decorative "Float" Element - Visualizing Compliance */}
