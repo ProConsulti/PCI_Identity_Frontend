@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import LEASE_DEFAULTS from '../../../constants/leaseDefaults';
 import { useNavigate } from 'react-router-dom';
+import { getApplicationCode } from '../../../utils/getApplicationCode';
 
 export const UserCreationPage = () => {
     const navigate = useNavigate();
@@ -37,6 +38,7 @@ export const UserCreationPage = () => {
         email: '',
         companyID: '',
         role: 'Admin',
+        applicationCodes: getApplicationCode().ifrs16Code,
     });
 
     // Load context from Redux store

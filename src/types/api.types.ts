@@ -57,6 +57,7 @@ export interface UserCreateRequest {
     email: string;
     companyID: string;
     role: string;
+    applicationCodes: string;
 }
 
 export interface UserCreateResponse {
