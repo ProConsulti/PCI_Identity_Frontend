@@ -19,8 +19,8 @@ const IFRSHero = () => {
                         </div>
 
                         <h1 className="text-5xl xl:text-6xl font-black text-slate-900 leading-[1.05] tracking-tight">
-                            Lease Accounting <br />
-                            <span className="text-blue-600">Without the Risk.</span>
+                            Lease<span className="text-blue-600">Master</span> <br />
+                            {/* <span className="text-blue-600">Without the Risk.</span> */}
                         </h1>
 
                         <p className="mt-6 text-lg text-slate-600 leading-relaxed max-w-lg">
@@ -62,8 +62,8 @@ const IFRSHero = () => {
 
                                 {/* THE VIDEO */}
                                 <div className="relative">
-                                    <video 
-                                        src={heroVideo} 
+                                    <video
+                                        src={heroVideo}
                                         className="w-full h-auto block object-cover"
                                         controls
                                         autoPlay

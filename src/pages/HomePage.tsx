@@ -4,7 +4,8 @@ import {
     Building2, Users, FileText, UploadCloud,
     Calculator, Edit3, PieChart, ShieldCheck, RefreshCw, ArrowRight, CheckCircle2,
     Zap, Mail, Phone, MapPin, Linkedin, Twitter,
-    Youtube
+    Youtube,
+    PhoneCall
 } from 'lucide-react';
 import HeroSection from '../components/HeroSection';
 import ceo from '../assets/umer.jpg';
@@ -17,14 +18,14 @@ export const HomePage = () => {
 
     const testimonials = [
         {
-            quote: "We built IFRS16 Pro because we saw CFOs struggling with manual IFRS 16 errors that cost millions in audit adjustments. Our mission is to automate the complexity.",
+            quote: "We built Lease Master because we saw CFOs struggling with manual IFRS 16 errors that cost millions in audit adjustments. Our mission is to automate the complexity.",
             author: "Umar Daraz FCA",
             role: "Founder, Senior Partner & CEO",
             avatar: ceo
         },
         {
-            quote: "Compliance shouldn't be a month-end nightmare. With this platform, we've turned a 4-day reporting cycle into a 15-minute automated task.",
-            author: "Abdul Basit ACA",
+            quote: "Compliance doesn’t have to be a month-end nightmare. Our platform transforms a time-intensive process into a one-minute, error-free automated task.",
+            author: "Abdul Basit FCA",
             role: "Partner & COO",
             avatar: partner
         }
@@ -36,7 +37,7 @@ export const HomePage = () => {
         { title: 'Lease Modifications', description: 'Easily handle renewals and terminations with automatic recalculation.', icon: Edit3, color: 'bg-purple-50 text-purple-600' },
         { title: 'Comprehensive Reporting', description: 'Generate standard and custom reports for financial statements.', icon: PieChart, color: 'bg-orange-50 text-orange-600' },
         { title: 'Audit Trail', description: 'Complete transaction history with user stamps for full transparency.', icon: ShieldCheck, color: 'bg-indigo-50 text-indigo-600' },
-        { title: 'Periodic Processing', description: 'Automated month-end and year-end processing with reversals.', icon: RefreshCw, color: 'bg-pink-50 text-pink-600' },
+        { title: 'Real-Time Processing', description: 'Automated month-end and year-end processing.', icon: RefreshCw, color: 'bg-pink-50 text-pink-600' },
     ];
 
     useEffect(() => {
@@ -178,7 +179,9 @@ export const HomePage = () => {
                         <h4 className="font-black text-xs uppercase tracking-widest text-indigo-400 mb-6">Contact Us</h4>
                         <ul className="space-y-4 text-slate-400 text-sm">
                             <li className="flex items-center gap-3"><Mail size={16} className="text-[#003399]" /> info@proconsulti.com</li>
-                            <li className="flex items-center gap-3"><Phone size={16} className="text-[#003399]" /> +92 51 8442121 | +92 51 2120733</li>
+                            <li className="flex items-center gap-3"><Phone size={16} className="text-[#003399]" /><a href='https://wa.me/923454601887' target='_blank'>Whatsapp +92 345 4601887</a></li>
+                            <li className="flex items-center gap-3"><PhoneCall size={16} className="text-[#003399]" />Landline +92 51 8442121</li>
+
                             <li className="flex items-start gap-3"><MapPin size={16} className="text-[#003399]" />Pakistan | UAE | UK | Saudi Arabia | Afghanistan</li>
                         </ul>
                     </div>

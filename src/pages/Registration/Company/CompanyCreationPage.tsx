@@ -210,7 +210,7 @@ export const CompanyCreationPage = () => {
                         <div className="mt-8 flex items-start gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
                             <Info size={18} className="text-[#003399] mt-0.5 shrink-0" />
                             <p className="text-[12px] text-slate-500 leading-relaxed">
-                                By continuing, we will automatically configure your <b>IFRS 16</b> reporting standards with your selected currency.
+                                By continuing, we will automatically set up your independent, secure lease accounting environment with your chosen currency. You can customize further settings after your initial setup.
                             </p>
                         </div>
                     </div>

@@ -233,7 +233,7 @@ const OtpVerificationPage = () => {
                         disabled={loading || (currentStep === 'email' ? (!email || !!emailError) : (otp.length !== 6))}
                         className="cursor-pointer w-full bg-[#003399] hover:bg-[#002266] disabled:opacity-50 disabled:grayscale text-white py-5 rounded-[2rem] font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/20 transition-all active:scale-[0.98] group"
                     >
-                        {loading ? (currentStep === 'email' ? "Sending OTP..." : "Verifying...") : (currentStep === 'email' ? "Send Code" : "Verify & Continue")}
+                        {loading ? (currentStep === 'email' ? "Sending OTP..." : "Verifying...") : (currentStep === 'email' ? "Send OTP" : "Verify & Continue")}
                         <ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
                     </button>
 
