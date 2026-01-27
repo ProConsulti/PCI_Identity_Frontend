@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-	ArrowRight, Mail, AlertCircle, Zap, ArrowLeft
+	ArrowRight, Mail, AlertCircle, Zap, ArrowLeft, CheckCircle2
 } from 'lucide-react';
 import { registrationService } from '../../../services/registrationService';
 import { useAppDispatch } from '../../../store/hooks';
@@ -15,11 +15,13 @@ const ForgotPassword: React.FC = () => {
 	const [currentStep, setCurrentStep] = useState<'email' | 'verify'>('email');
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
+	const [success, setSuccess] = useState<string | null>(null);
 	const [email, setEmail] = useState('');
 	const [emailError, setEmailError] = useState<string | null>(null);
-	const [otp, setOtp] = useState('');
+	const [otp, setOtp] = useState(['', '', '', '', '', '']);
 	const [otpTimer, setOtpTimer] = useState(300); // 5 minutes
 	const otpTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const otpInputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
 	useEffect(() => {
 		if (currentStep === 'verify' && otpTimer > 0) {
@@ -73,14 +75,15 @@ const ForgotPassword: React.FC = () => {
 		setLoading(true);
 		setError(null);
 
-		if (otp.length !== 6) {
+		const otpValue = otp.join('');
+		if (otpValue.length !== 6) {
 			setError('Please enter a 6-digit OTP');
 			setLoading(false);
 			return;
 		}
 
 		try {
-			const response = await registrationService.verifyOtp(email, otp);
+			const response = await registrationService.verifyOtp(email, otpValue);
 			if (response.success) {
 				dispatch(setUserEmail(email));
 				// After verification for forgot-password flow, go to new password page and pass email in state
@@ -95,49 +98,112 @@ const ForgotPassword: React.FC = () => {
 		}
 	};
 
+	const handleOtpChange = (index: number, value: string) => {
+		// Only allow digits
+		if (value && !/^\d$/.test(value)) return;
+
+		const newOtp = [...otp];
+		newOtp[index] = value;
+		setOtp(newOtp);
+		setSuccess(null); // Clear success message when typing
+
+		// Auto-focus next input
+		if (value && index < 5) {
+			otpInputRefs.current[index + 1]?.focus();
+		}
+	};
+
+	const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === 'Backspace' && !otp[index] && index > 0) {
+			otpInputRefs.current[index - 1]?.focus();
+		}
+	};
+
+	const handleOtpPaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+		e.preventDefault();
+		const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6);
+		const newOtp = [...otp];
+		
+		for (let i = 0; i < pastedData.length; i++) {
+			newOtp[i] = pastedData[i];
+		}
+		
+		setOtp(newOtp);
+		
+		// Focus the next empty input or the last one
+		const nextEmptyIndex = newOtp.findIndex(digit => !digit);
+		if (nextEmptyIndex !== -1) {
+			otpInputRefs.current[nextEmptyIndex]?.focus();
+		} else {
+			otpInputRefs.current[5]?.focus();
+		}
+	};
+
+	const handleResendOtp = async () => {
+		try {
+			setLoading(true);
+			setError(null);
+			setSuccess(null);
+			await registrationService.sendOtp(email, true);
+			setOtpTimer(300);
+			setOtp(['', '', '', '', '', '']);
+			setSuccess('OTP resent successfully! Please check your email.');
+			otpInputRefs.current[0]?.focus();
+			// Clear success message after 5 seconds
+			setTimeout(() => setSuccess(null), 5000);
+		} catch (err: any) {
+			setError(err.message || 'Failed to resend OTP');
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	const handleBackToEmail = () => {
 		setCurrentStep('email');
-		setOtp('');
+		setOtp(['', '', '', '', '', '']);
 		setError(null);
 		if (otpTimerRef.current) {
 			clearTimeout(otpTimerRef.current);
 		}
 	};
 
-	const formatTime = (seconds: number) => {
-		const mins = Math.floor(seconds / 60);
-		const secs = seconds % 60;
-		return `${mins}:${secs.toString().padStart(2, '0')}`;
-	};
-
 	return (
-		<div className="flex items-center justify-center bg-slate-50/50 py-12 px-4">
-			<div className="max-w-xl w-full">
+		<div className="flex items-center justify-center min-h-screen bg-slate-50/50 py-12 px-4">
+			<div className="max-w-2xl w-full">
 				<form onSubmit={currentStep === 'email' ? handleSendOtp : handleVerifyOtp} className="space-y-6">
+					
+					{/* Step Indicator */}
 					<div className="flex items-center justify-center gap-4 mb-8">
 						<div className="flex items-center gap-4 flex-1 max-w-md">
 							<div className="flex flex-col items-center flex-1">
-								<div className={`w-10 h-10 rounded-full font-black text-sm flex items-center justify-center transition-all ${currentStep === 'email' || currentStep === 'verify' ? 'bg-[#003399] text-white' : 'bg-slate-100 text-slate-400'}`}>
+								<div className={`w-12 h-12 rounded-full font-black text-base flex items-center justify-center transition-all ${currentStep === 'email' || currentStep === 'verify' ? 'bg-[#003399] text-white' : 'bg-slate-100 text-slate-400'}`}>
 									1
 								</div>
-								<p className="text-[10px] font-bold text-slate-500 mt-2 uppercase">Email</p>
+								<p className="text-[11px] font-bold text-slate-500 mt-2 uppercase tracking-wider">Email</p>
 							</div>
 							<div className={`flex-1 h-1 rounded-full transition-all ${currentStep === 'verify' ? 'bg-[#003399]' : 'bg-slate-200'}`} />
 							<div className="flex flex-col items-center flex-1">
-								<div className={`w-10 h-10 rounded-full font-black text-sm flex items-center justify-center transition-all ${currentStep === 'verify' ? 'bg-[#003399] text-white' : 'bg-slate-100 text-slate-400'}`}>
+								<div className={`w-12 h-12 rounded-full font-black text-base flex items-center justify-center transition-all ${currentStep === 'verify' ? 'bg-[#003399] text-white' : 'bg-slate-100 text-slate-400'}`}>
 									2
-								</div> 
-								<p className="text-[10px] font-bold text-slate-500 mt-2 uppercase">Verify</p>
+								</div>
+								<p className="text-[11px] font-bold text-slate-500 mt-2 uppercase tracking-wider">Verify</p>
 							</div>
-						</div> 
-					</div> 
+						</div>
+					</div>
 
-					<div className="bg-white rounded-[2.5rem] border border-slate-200 shadow-xl shadow-blue-900/5 p-8 md:p-10">
+					<div className="bg-white rounded-3xl border border-slate-200 shadow-xl p-10 md:p-12">
 
 						{error && (
-							<div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-700 rounded-2xl text-sm font-bold flex items-center gap-3">
+							<div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-700 rounded-2xl text-sm font-bold flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
 								<Zap size={18} className="fill-red-700" />
 								{error}
+							</div>
+						)}
+
+						{success && (
+							<div className="mb-6 p-4 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-2xl text-sm font-bold flex items-center gap-3 animate-in fade-in slide-in-from-top-2">
+								<CheckCircle2 size={18} className="text-emerald-700" />
+								{success}
 							</div>
 						)}
 
@@ -175,61 +241,82 @@ const ForgotPassword: React.FC = () => {
 										We'll send a one-time password (OTP) to verify your email address.
 									</p>
 								</div>
+
+								<button
+									type="submit"
+									disabled={loading || !email || !!emailError}
+									className="cursor-pointer w-full bg-[#003399] hover:bg-[#002266] disabled:opacity-50 disabled:grayscale text-white py-5 rounded-[2rem] font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/20 transition-all active:scale-[0.98] group"
+								>
+									{loading ? "Sending OTP..." : "Send OTP"}
+									<ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
+								</button>
 							</div>
 						) : (
 							<div className="space-y-6">
-								<div className="flex items-center gap-3 mb-8">
-									<AlertCircle size={28} className="text-[#003399]" />
-									<div>
-										<h1 className="text-2xl font-black text-slate-900">Verify OTP</h1>
-										<p className="text-sm text-slate-500">Check your email for the code</p>
+								{/* Header */}
+								<div className="text-center mb-8">
+									<h1 className="text-3xl font-bold text-slate-900 mb-3">Verify OTP</h1>
+									<p className="text-sm text-slate-600">
+										We've sent a verification OTP to
+									</p>
+									<p className="text-sm font-medium text-slate-900 mt-1">{email}</p>
+								</div>
+
+								{/* OTP Input Boxes */}
+								<div>
+									<label className="text-base font-medium text-slate-700 block text-center mb-6">
+										Enter 6-digit code
+									</label>
+									<div className="flex gap-2 justify-center mb-8">
+										{otp.map((digit, index) => (
+											<input
+												key={index}
+												ref={(el) => { otpInputRefs.current[index] = el; }}
+												type="text"
+												inputMode="numeric"
+												maxLength={1}
+												value={digit}
+												onChange={(e) => handleOtpChange(index, e.target.value)}
+												onKeyDown={(e) => handleOtpKeyDown(index, e)}
+												onPaste={handleOtpPaste}
+												className="w-12 h-14 text-center text-xl font-normal border-2 border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#4285F4] focus:border-[#4285F4] bg-white text-slate-900 transition-all"
+											/>
+										))}
+									</div>
+
+									{/* Verify OTP Button */}
+									<button
+										type="submit"
+										disabled={loading || otp.join('').length !== 6}
+										className="w-full bg-[#003399] hover:bg-[#002266] disabled:opacity-50 disabled:cursor-not-allowed text-white py-4 rounded-xl font-bold text-base shadow-md transition-all mb-4"
+									>
+										{loading ? "Verifying..." : "Verify OTP"}
+									</button>
+
+									{/* Resend OTP and Back to Email */}
+									<div className="flex items-center justify-between">
+										<button
+											type="button"
+											disabled={loading || otpTimer === 0}
+											onClick={handleResendOtp}
+											className="text-[#4285F4] font-bold text-sm hover:text-[#357AE8] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+										>
+											Resend OTP
+										</button>
+
+										<button
+											type="button"
+											onClick={handleBackToEmail}
+											className="inline-flex items-center gap-1 text-slate-600 font-medium text-sm hover:text-slate-900 transition-colors"
+										>
+											<ArrowLeft size={16} />
+											Back to Email
+										</button>
 									</div>
 								</div>
-
-								<div>
-									<label className="text-[11px] font-black text-slate-500 uppercase tracking-wider ml-1">
-										6-Digit Code
-									</label>
-									<input
-										type="text"
-										value={otp}
-										onChange={(e) => {
-											const value = e.target.value.replace(/\D/g, '').slice(0, 6);
-											setOtp(value);
-										}}
-										maxLength={6}
-										placeholder="000000"
-										className="w-full px-4 py-3 text-center text-2xl font-bold tracking-widest border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-slate-700"
-									/>
-								</div>
-
-								<div className="mt-4 flex items-center justify-between p-4 bg-slate-50 rounded-2xl border border-slate-100">
-									<p className="text-xs font-bold text-slate-600">Code expires in:</p>
-									<p className={`text-lg font-black ${otpTimer < 60 ? 'text-red-600' : 'text-[#003399]'}`}>
-										{formatTime(otpTimer)}
-									</p>
-								</div>
-
-								<button
-									type="button"
-									onClick={handleBackToEmail}
-									className="w-full flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-[#003399] hover:text-[#002266] transition-colors"
-								>
-									<ArrowLeft size={16} />
-									Back to Email
-								</button>
 							</div>
 						)}
 					</div>
-
-					<button
-						type="submit"
-						disabled={loading || (currentStep === 'email' ? (!email || !!emailError) : (otp.length !== 6))}
-						className="cursor-pointer w-full bg-[#003399] hover:bg-[#002266] disabled:opacity-50 disabled:grayscale text-white py-5 rounded-[2rem] font-black text-lg flex items-center justify-center gap-3 shadow-2xl shadow-blue-900/20 transition-all active:scale-[0.98] group"
-					>
-						{loading ? (currentStep === 'email' ? "Sending OTP..." : "Verifying...") : (currentStep === 'email' ? "Send OTP" : "Verify & Continue")}
-						<ArrowRight size={22} className="group-hover:translate-x-1 transition-transform" />
-					</button>
 				</form>
 			</div>
 		</div>
