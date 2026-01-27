@@ -5,7 +5,8 @@ import {
     Calculator, Edit3, PieChart, ShieldCheck, RefreshCw, ArrowRight, CheckCircle2,
     Zap, Mail, Phone, MapPin, Linkedin, Twitter,
     Youtube,
-    PhoneCall
+    PhoneCall,
+    Calendar
 } from 'lucide-react';
 import HeroSection from '../components/HeroSection';
 import ceo from '../assets/umer.jpg';
@@ -49,6 +50,17 @@ export const HomePage = () => {
 
     return (
         <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-indigo-100">
+            {/* Floating Book a Demo Button */}
+            <a
+                href="https://www.proconsulti.com/demo"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="fixed right-0 top-1/2 -translate-y-1/2 z-[999] bg-[#003399] hover:bg-[#002277] text-white px-6 py-4 rounded-l-xl shadow-xl transition-all flex items-center gap-3 font-bold text-base animate-bounce"
+            >
+                <Calendar size={24} />
+                Book a demo
+            </a>
+
             {/* --- 1. HERO SECTION --- */}
             <HeroSection />
             {/* --- 2. TRUSTED CLIENTS --- */}
@@ -188,6 +200,9 @@ export const HomePage = () => {
                     <div>
                         <h4 className="font-black text-xs uppercase tracking-widest text-indigo-400 mb-6">Action</h4>
                         <Link to="/verify-email" className="bg-white text-slate-900 px-6 py-4 rounded-xl font-black block text-center hover:bg-indigo-50 transition-all">Get Started Now</Link>
+                        <a href="https://www.proconsulti.com/demo" target="_blank" rel="noopener noreferrer" className="bg-[#003399] text-white px-6 py-4 rounded-xl font-black block text-center hover:bg-[#002277] transition-all mt-4 flex items-center justify-center gap-2">
+                            <Calendar size={18} /> Book a Demo
+                        </a>
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 text-slate-500 text-[10px] font-black uppercase tracking-widest flex justify-between">
