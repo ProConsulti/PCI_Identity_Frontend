@@ -55,9 +55,9 @@ export const HomePage = () => {
                 href="https://www.proconsulti.com/demo"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="fixed right-0 top-1/2 -translate-y-1/2 z-[999] bg-[#003399] hover:bg-[#002277] text-white px-6 py-4 rounded-l-xl shadow-xl transition-all flex items-center gap-3 font-bold text-base animate-bounce"
+                className="fixed right-0 top-[82%] -translate-y-1/2 z-[999] bg-[#003399] hover:bg-[#002277] text-white px-4 py-3 rounded-l-lg shadow-xl transition-all flex items-center gap-2 font-bold text-sm"
             >
-                <Calendar size={24} />
+                <Calendar size={18} />
                 Book a demo
             </a>
 
@@ -200,9 +200,9 @@ export const HomePage = () => {
                     <div>
                         <h4 className="font-black text-xs uppercase tracking-widest text-indigo-400 mb-6">Action</h4>
                         <Link to="/verify-email" className="bg-white text-slate-900 px-6 py-4 rounded-xl font-black block text-center hover:bg-indigo-50 transition-all">Get Started Now</Link>
-                        <a href="https://www.proconsulti.com/demo" target="_blank" rel="noopener noreferrer" className="bg-[#003399] text-white px-6 py-4 rounded-xl font-black block text-center hover:bg-[#002277] transition-all mt-4 flex items-center justify-center gap-2">
+                        {/* <a href="https://www.proconsulti.com/demo" target="_blank" rel="noopener noreferrer" className="bg-[#003399] text-white px-6 py-4 rounded-xl font-black block text-center hover:bg-[#002277] transition-all mt-4 flex items-center justify-center gap-2">
                             <Calendar size={18} /> Book a Demo
-                        </a>
+                        </a> */}
                     </div>
                 </div>
                 <div className="max-w-7xl mx-auto px-6 pt-8 border-t border-white/5 text-slate-500 text-[10px] font-black uppercase tracking-widest flex justify-between">
