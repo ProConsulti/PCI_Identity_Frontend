@@ -1,8 +1,10 @@
-import { ShieldCheck, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, ArrowRight, CheckCircle2, Calendar } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import heroVideo from '../assets/ifrs16demo.mp4';
+
 const IFRSHero = () => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    
     return (
         <section className="relative w-full bg-white overflow-hidden">
             {/* Background Accent */}
@@ -40,6 +42,9 @@ const IFRSHero = () => {
                             <button onClick={() => navigate("/verify-email")} className="cursor-pointer bg-blue-600 text-white px-8 py-4 rounded-lg font-bold shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all flex items-center gap-2">
                                 Get Started <ArrowRight size={18} />
                             </button>
+                            <a href="https://www.proconsulti.com/demo" target="_blank" rel="noopener noreferrer" className="cursor-pointer bg-white text-[#003399] px-8 py-4 rounded-lg font-bold border-2 border-[#003399] hover:bg-[#003399] hover:text-white transition-all flex items-center gap-2">
+                                <Calendar size={18} /> Book a Demo
+                            </a>
                         </div>
                     </div>
 
