@@ -18,8 +18,8 @@ const getApiBaseUrl = () => {
 
     if (hostname.includes('ifrs16-tool.ifrs.ca') || hostname.includes('ifrs16pci-tool.ifrs.ca')) {
         return {
-            ifrsService: import.meta.env.VITE_IFRS16_SERVICE_TOOL,
-            identityService: import.meta.env.VITE_PCI_IDENTITY_SERVICE_TOOL,
+            ifrsService: import.meta.env.VITE_IFRS16_SERVICE_PROD,
+            identityService: import.meta.env.VITE_PCI_IDENTITY_SERVICE_PROD,
         };
     }
 
